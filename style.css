@@ -1,0 +1,14 @@
+footer{
+  color: #A09FB1;
+width:70%;
+
+text-align: center;
+font-family: 'Montserrat';
+padding-left: 459px;
+padding-bottom: 24px;
+}
+
+footer em{
+font-style: normal;
+font-weight: bold;
+}
