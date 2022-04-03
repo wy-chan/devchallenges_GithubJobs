@@ -61,6 +61,8 @@ Challenge: Create a job search using an API.
 
 This application/site was created as a submission to a [DevChallenges](https://devchallenges.io/challenges) challenge. The [challenge](https://devchallenges.io/challenges/TtUjDt19eIHxNQ4n5jps) was to build an application to complete the following user stories:
 
+(Due to)
+
 - [x] User story: I can see a list of jobs in a city by default
 - [x] User story: I can search for jobs with a given keyword
 - [x] User story: I can search for jobs with a city name, zip code, or other location
@@ -75,6 +77,7 @@ This application/site was created as a submission to a [DevChallenges](https://d
 ## Acknowledgements
 
 <!-- This section should list any articles or add-ons/plugins that helps you to complete the project. This is optional but it will help you in the future. For example -->
+
 #### Basics:
 - [Steps to replicate a design with only HTML and CSS](https://devchallenges-blogs.web.app/how-to-replicate-design/)
 - [Marked - a markdown parser](https://github.com/chjj/marked)
@@ -84,7 +87,7 @@ This application/site was created as a submission to a [DevChallenges](https://d
 - [Material Icons](https://google.github.io/material-design-icons/)
 
 #### API:
-- https://jobs.github.com/api
+- [THE MUSE](https://www.themuse.com/developers/api/v2)
 
 
 ## Contact

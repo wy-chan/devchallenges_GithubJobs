@@ -15,7 +15,7 @@ color: #334680;
 #myApp{
   width:80%;
 }
-button:hover{
+button:hover, input[type="checkbox"]:hover,input[type="radio"]:hover{
   cursor: pointer;
 }
 
@@ -49,6 +49,7 @@ font-style: normal;
 font-weight: 700;
 font-size: 14px;
 margin-top: 33px;
+
 }
 h3{
   font-family: 'Roboto';
@@ -61,6 +62,7 @@ margin: 0px;
   width:100%;
   height:138px;
   background:url("images/backgroundImg.png");
+  background-color: #6f7997;
   background-size: cover;
   border-radius: 8px;
   display:flex;
@@ -74,6 +76,7 @@ margin: 0px;
   height:55px;
   display: flex;
   align-items: center;
+  border-radius: 4px;
 }
 .work-icon{
   margin-top: 19px;
@@ -167,6 +170,10 @@ border-radius: 4px;
 display: flex;
 position: relative;
 margin-bottom: 32px;
+width:100%;
+min-height:110px;
+border:none;
+padding-left: 12px;
 }
 .com-img-div{
   width: 90px;
@@ -201,6 +208,7 @@ font-weight: 400;
 font-size: 18px;
 padding-top: 8px;
 padding-bottom: 12px;
+text-align: left;
 }
 .job-ft{
   font-family: 'Roboto';
@@ -249,12 +257,15 @@ width: 36px;
 height: 36px;
 background: transparent;
 }
+.page-btn-icon{
+  color:#B7BCCE;
+}
 .page-btn:hover{
   border: 1px solid #1E86FF;
   color:#1E86FF;
 }
-.page-btn-icon{
-  color:#B7BCCE;
+.page-btn:hover > .page-btn-icon{
+  color:#1E86FF;
 }
 .page-btn-active, .page-btn-active:hover{
   background: #1E86FF;
@@ -269,9 +280,15 @@ font-style: normal;
 font-weight: 500;
 font-size: 14px;
 color: #1E86FF;
+background: none;
+margin-bottom: 33px;
 }
 #left-div1{
 width: 19%;
+}
+#job-details{
+  width:78.5%;
+  text-align: justify;
 }
 .job-title-div{
   display: flex;
@@ -291,26 +308,58 @@ height: 42px;
 border-radius: 4px;
 background: #FFFFFF;
 }
-.job-text-div{
+.job-text-div1{
   margin:0;
   padding:0;
 }
-.job-text-div >.job-com{
+.job-text-div1 >.job-com{
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 700;
   font-size: 18px;
   margin-bottom: 10px;
 }
+
+.content-div b{
+font-size:20px;
+}
+.url-btn{
+  background: #334680;
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: 8px;
+  border-radius: 4px;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+}
+.url-btn:hover{
+  background: #1E86FF;
+  cursor: pointer;
+}
+.url-btn a{
+  color: #FFFFFF;
+  text-decoration: none;
+}
+.url-icon{
+  font-size: 14px;
+  padding-right: 15px;
+  vertical-align: middle;
+}
 footer{
   color: #A09FB1;
 
 text-align: center;
 font-family: 'Montserrat';
+padding-top: 100px;
 padding-bottom: 24px;
 }
 
 footer em{
 font-style: normal;
 font-weight: bold;
+}
+.hidden{
+  display: none;
 }
