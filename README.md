@@ -39,10 +39,10 @@
 
 
    <p float="left">
-   <img src="images/ghjob_screen.png" alt="screenshot" height="450">&nbsp;&nbsp;<img src="images/ghjob_screen2.png" alt="screenshot" height="450">
+   <img src="images/ghjob_screen.png" alt="screenshot" height="350">&nbsp;&nbsp;<img src="images/ghjob_screen2.png" alt="screenshot" height="350">
    </p>
    <p float="left">
-   <img src="images/ghjob_screen1.png" alt="screenshot" height="450">&nbsp;&nbsp;<img src="images/ghjob_screen1a.png" alt="screenshot" height="450">
+   <img src="images/ghjob_screen1.png" alt="screenshot" height="350">&nbsp;&nbsp;<img src="images/ghjob_screen1a.png" alt="screenshot" height="350">
    </p>
    <p float="left">
    <img src="images/ghjob_screen_m.png" alt="screenshot" height="300">&nbsp;&nbsp;
