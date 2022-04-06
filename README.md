@@ -38,7 +38,7 @@
 ## Overview
 
 
-   <<p float="left">
+   <p float="left">
    <img src="images/ghjob_screen.png" alt="screenshot" height="300">&nbsp;&nbsp;<img src="images/ghjob_screen2.png" alt="screenshot" height="300">
    </p>
    <p float="left">
