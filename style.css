@@ -310,6 +310,7 @@ width: 19%;
   align-items: center;
   column-gap: 17px;
   margin-bottom: 9px;
+  text-align: left;
 }
 .com-info-div{
   display: flex;
@@ -377,4 +378,49 @@ font-weight: bold;
 }
 .hidden{
   display: none;
+}
+@media(max-width:950px){
+  #myApp{
+    width:95%;
+  }
+  #search-bar{
+    width:90%;
+  }
+  #search-btn{
+    width:104px;
+  }
+
+  #main0, #main1{
+    flex-direction: column;
+    row-gap: 42px;
+  }
+  #left-div,#left-div1, #jobs-div, #job-details{
+    width: 100%;
+  }
+  #search-location{
+    background: white;
+  }
+  .location-input{
+    width:auto;
+  }
+  #levels-list,#location-list{
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  #levels-list li{
+    width:150px;
+  }
+  #location-list li{
+    width:220px;
+  }
+
+  .job-list-item{
+    flex-direction: column;
+  }
+  .job-lt-div{
+    position:initial;
+    align-self: flex-end;
+    margin-top:26px;
+    margin-right: 12px;
+  }
 }

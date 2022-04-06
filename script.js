@@ -91,7 +91,7 @@ class MyApp extends React.Component{
             page:1,
             jobNo:event.currentTarget.id.charAt(3),
         })
-        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     toMainPage(){
@@ -294,7 +294,7 @@ class SearchBar extends React.Component{
         return(
             <div id="search-bar-div">
                 <form id="search-bar" onSubmit={this.props.handleTopSubmit}>
-                    <input placeholder="Title, companies, expertise or benefits" className="text-input" onChange={this.props.handleTopChange} value={this.props.topInput}/>
+                    <input placeholder="Search by category/ company" className="text-input" onChange={this.props.handleTopChange} value={this.props.topInput}/>
                     <button id="search-btn" type="submit">Search</button>
                     <span className="material-icons-outlined input-icon">work_outline</span>
                 </form>
