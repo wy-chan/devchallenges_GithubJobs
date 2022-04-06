@@ -61,17 +61,17 @@ Challenge: Create a job search using an API.
 
 This application/site was created as a submission to a [DevChallenges](https://devchallenges.io/challenges) challenge. The [challenge](https://devchallenges.io/challenges/TtUjDt19eIHxNQ4n5jps) was to build an application to complete the following user stories:
 
-(Due to)
+*Due to depreciation of GitHub Jobs site, I used another API for this page. Some features listed below are not available in this API.*
 
 - [x] User story: I can see a list of jobs in a city by default
 - [x] User story: I can search for jobs with a given keyword
 - [x] User story: I can search for jobs with a city name, zip code, or other location
 - [x] User story: I can select one option from at least 4 pre-defined options
-- [x] User story: I can search for a full-time job only
-- [x] User story: I can see a list of jobs with their logo, company name, location, and posted time.
+- [x] User story: I can search for a full-time job only *(Not available, I changed this to "levels" options.)*
+- [x] User story: I can see a list of jobs with their logo, company name, location, and posted time. *(Company logo is not provided in this API.)*
 - [x] User story: When I select a job, I can see job descriptions and how to apply like the given design.
 - [x] User story: When I am on the job details page, I can go back to the search page
-- [x] User story (optional): I can see a list of jobs in the closest city from my location by default
+- [ ] User story (optional): I can see a list of jobs in the closest city from my location by default
 - [x] User story (optional): I can see jobs on different pages, 5 items on each page
 
 ## Acknowledgements
@@ -87,6 +87,7 @@ This application/site was created as a submission to a [DevChallenges](https://d
 - [Material Icons](https://google.github.io/material-design-icons/)
 
 #### API:
+*(The GitHub Jobs API -https://jobs.github.com/api is no longer available)*
 - [THE MUSE](https://www.themuse.com/developers/api/v2)
 
 

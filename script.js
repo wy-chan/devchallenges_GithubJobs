@@ -15,7 +15,15 @@ class MyApp extends React.Component{
           jobData0020:[],
           jobData2140:[],
           jobData4150:[],
-          recentSearch:["London","Amsterdam","New York","Berlin"],
+          radioSearch:["London, United Kingdom","Amsterdam, Netherlands","New York, NY","Berlin, Germany"],
+          searchLocation:"London, United Kingdom",
+          levelSearch:[false, false, false, false, false],
+          levelURL:"",
+          locationInput:"",
+          topInput:"",
+          searchCat:"",
+          searchCom:"",
+          searchNotice:"Loading...",
       }
       this.toMainPage=this.toMainPage.bind(this);
       this.toDetailPage=this.toDetailPage.bind(this);
@@ -26,21 +34,29 @@ class MyApp extends React.Component{
       this.lastJobPage=this.lastJobPage.bind(this);
       this.handleJobPage=this.handleJobPage.bind(this);
       this.resetPage=this.resetPage.bind(this);
+      this.changeLocation=this.changeLocation.bind(this);
+      this.changelevel=this.changelevel.bind(this);
+      this.handleLocationChange=this.handleLocationChange.bind(this);
+      this.handleLocationSubmit=this.handleLocationSubmit.bind(this);
+      this.handleTopChange=this.handleTopChange.bind(this);
+      this.handleTopSubmit=this.handleTopSubmit.bind(this);
     }
 
     componentDidMount() {
-        this.loadAllData();
+        this.loadAllData("location="+this.state.searchLocation+"&");
     }
 
-    loadAllData(){
-        this.getData(1, "5");
-        this.getData(1, "0020");
-        this.getData(2, "2140");
-        this.getData(3, "4150");   
+    loadAllData(url){
+        this.getData(1, "5",url);
+        this.getData(1, "0020",url);
+        this.getData(2, "2140",url);
+        this.getData(3, "4150",url);   
+        console.log(this.state.searchCat);
+        console.log(this.state.searchCom)
     }
 
-    getData(page, state){
-        fetch(APIurl + APIurlPage+page)
+    getData(page, state, criteria){
+        fetch(APIurl + criteria + APIurlPage + page)
         .then((res) => res.json())
         .then((json) => {
             (state == "5")?
@@ -61,10 +77,12 @@ class MyApp extends React.Component{
             }):
             null;
             console.log(this.state.jobData5);
+            (this.state.jobData5)? this.setState({searchNotice: "No job matches the search criteria."}):null;
         })
         .catch(error=>{
             log('Request failed', error)
         });
+        console.log(APIurl + criteria + APIurlPage + page);
     }
     
 
@@ -123,12 +141,114 @@ class MyApp extends React.Component{
         this.setState({
             jobPage:0,
         })
-        handleJobPage(0);
+        this.handleJobPage(0);
     }
+
+    changeLocation(event){
+        this.setState({
+            searchLocation: event.target.id.replace(/^[0-9]+/g,""),
+        });
+        (this.state.searchCat != "")?
+        this.loadAllData("location="+event.target.id.replace(/^[0-9]+/g,"")+"&"+"category="+this.state.searchCat+"&"+this.state.levelURL):
+        (this.state.searchCom != "")?
+        this.loadAllData("location="+event.target.id.replace(/^[0-9]+/g,"")+"&"+"company="+this.state.searchCom+"&"+this.state.levelURL):
+        this.loadAllData("location="+event.target.id.replace(/^[0-9]+/g,"")+"&"+this.state.levelURL);
+        this.resetPage();
+    }
+
+    changelevel(event){
+        let index = event.target.id.match(/\d+/g);
+        let newList = this.state.levelSearch;
+        newList[index] = (newList[index])? false: true;
+        let lvList = ["Entry Level","Mid Level","Senior Level","management","Internship"];
+        let lvURL = lvList.map((item,i)=>(newList[i])? "level="+item+"&":null).join('');
+        this.setState({
+            levelSearch: newList,
+            levelURL: lvURL,
+        });
+        (this.state.searchCat != "")?
+        this.loadAllData("location="+this.state.searchLocation+"&"+"category="+this.state.searchCat+"&"+lvURL):
+        (this.state.searchCom != "")?
+        this.loadAllData("location="+this.state.searchLocation+"&"+"company="+this.state.searchCom+"&"+lvURL):
+        this.loadAllData("location="+this.state.searchLocation+"&"+lvURL);
+    }
+
+    handleLocationChange(event){
+        this.setState({
+            locationInput: event.target.value,
+        })
+    }
+
+    handleLocationSubmit(event){
+        event.preventDefault();
+        let input = this.state.locationInput;
+        fetch("searchdata.json")
+        .then((res) => res.json())
+        .then((json) => {
+            let match =json.location.find(item=>JSON.stringify(item).toLowerCase().includes(input.toLowerCase()));//turn all to lowercase as input may have randon capital letters 
+            console.log(match);
+            let i = json.location.indexOf(match);
+            console.log(i);
+            if(i>-1){
+            this.setState({
+                searchLocation: json.location[i],
+                locationInput: json.location[i],
+            });
+                (this.state.searchCat != "")?
+                this.loadAllData("location="+match+"&"+"category="+this.state.searchCat+"&"+this.state.levelURL):
+                (this.state.searchCom != "")?
+                this.loadAllData("location="+match+"&"+"company="+this.state.searchCom+"&"+this.state.levelURL):
+                this.loadAllData("location="+match+"&"+this.state.levelURL);
+            }else{
+            console.log("not found");
+            alert("Location \""+input+"\" is not found.");
+            }
+        })
+    }
+
+    handleTopChange(event){
+        this.setState({
+            topInput: event.target.value,
+        })
+    }
+
+    handleTopSubmit(event){
+        event.preventDefault();
+        let input = this.state.topInput;
+        input = input.charAt(0).toUpperCase()+input.slice(1);
+        fetch("searchdata.json")
+        .then((res) => res.json())
+        .then((json) => {
+            let match =json.category.find(item=>JSON.stringify(item).toLowerCase().includes(input.toLowerCase()));
+            console.log(match);
+            let i = json.category.indexOf(match);
+            console.log(i);
+            if(i>-1){
+                this.setState({
+                    topInput:json.category[i],
+                    searchCat:json.category[i],
+                    searchCom:"",
+                });
+                this.loadAllData("category="+match+"&"+"location="+this.state.searchLocation+"&"+this.state.levelURL);
+            }else{
+                this.setState({
+                    topInput:input,
+                    searchCom:input,
+                    searchCat:"",
+                });
+                this.loadAllData("company="+input+"&"+"location="+this.state.searchLocation+"&"+this.state.levelURL);
+            }
+        })
+    }
+
 
     render(){
         const searchBar = (this.state.page==0)? 
-                          <SearchBar />:
+                          <SearchBar 
+                          handleTopChange={this.handleTopChange}
+                          handleTopSubmit={this.handleTopSubmit}
+                          topInput={this.state.topInput}
+                          />:
                           null;
         const mainContent = ((this.state.page==0))?
                             <Main0 
@@ -138,7 +258,15 @@ class MyApp extends React.Component{
                                 toJobPage={this.toJobPage}
                                 nextJobPage={this.nextJobPage}
                                 lastJobPage={this.lastJobPage}
-                                recentSearch={this.state.recentSearch}
+                                radioSearch={this.state.radioSearch}
+                                searchLocation={this.state.searchLocation}
+                                changeLocation={this.changeLocation}
+                                levelSearch={this.state.levelSearch}
+                                changelevel={this.changelevel}
+                                handleLocationChange={this.handleLocationChange}
+                                handleLocationSubmit={this.handleLocationSubmit}
+                                locationInput={this.state.locationInput}
+                                searchNotice={this.state.searchNotice}
                             />: 
                             <Main1 
                                 toMainPage={this.toMainPage}
@@ -165,9 +293,9 @@ class SearchBar extends React.Component{
     render(){
         return(
             <div id="search-bar-div">
-                <form id="search-bar">
-                    <input placeholder="Title, companies, expertise or benefits" className="text-input"/>
-                    <button id="search-btn">Search</button>
+                <form id="search-bar" onSubmit={this.props.handleTopSubmit}>
+                    <input placeholder="Title, companies, expertise or benefits" className="text-input" onChange={this.props.handleTopChange} value={this.props.topInput}/>
+                    <button id="search-btn" type="submit">Search</button>
                     <span className="material-icons-outlined input-icon">work_outline</span>
                 </form>
             </div>
@@ -182,21 +310,47 @@ class Main0 extends React.Component{
         return(
             <div id="main0">
             <div id="left-div">
-            
-            <input type="checkbox" id="Full-time" name="Full-time" value="Full-time"/>
-            <label htmlFor="Full-time" className="location-label">Remote</label>
+
+            <h2>Levels</h2>
+            <ul id="levels-list">
+            <li>
+            <input type="checkbox" id="level0" name="Full-time" value="Full-time" onChange={this.props.changelevel} checked={this.props.levelSearch[0]}/>
+            <label htmlFor="Full-time" className="location-label">Entry Level</label>
+            </li>
+            <li>
+            <input type="checkbox" id="level1" name="Full-time" value="Full-time" onChange={this.props.changelevel} checked={this.props.levelSearch[1]}/>
+            <label htmlFor="Full-time" className="location-label">Mid Level</label>
+            </li>
+            <li>
+            <input type="checkbox" id="level2" name="Full-time" value="Full-time" onChange={this.props.changelevel} checked={this.props.levelSearch[2]}/>
+            <label htmlFor="Full-time" className="location-label">Senior Level</label>
+            </li>
+            <li>
+            <input type="checkbox" id="level3" name="Full-time" value="Full-time" onChange={this.props.changelevel} checked={this.props.levelSearch[3]}/>
+            <label htmlFor="Full-time" className="location-label">Management</label>
+            </li>
+            <li>
+            <input type="checkbox" id="level4" name="Full-time" value="Full-time" onChange={this.props.changelevel} checked={this.props.levelSearch[4]}/>
+            <label htmlFor="Full-time" className="location-label">Internship</label>
+            </li>
+            </ul>
             
             <h2>Location</h2>
-            <form id="search-location">
-                <input placeholder="City, state, zip code or country"  className="text-input location-input"/>
+            <form id="search-location" onSubmit={this.props.handleLocationSubmit}>
+                <input 
+                placeholder="City, state, zip code or country"  
+                className="text-input location-input" 
+                onChange={this.props.handleLocationChange}
+                value={this.props.locationInput}
+                />
                 <span className="material-icons-outlined input-icon">public</span>
             </form>
             <ul id="location-list">
 
-                {this.props.recentSearch.map((item, index)=>
+                {this.props.radioSearch.map((item, index)=>
                   <li key={index+item}>
-                      <input type="radio" id={index + item} name="London" value="London"/>
-                      <label htmlFor="London" className="location-label">{item}</label>
+                      <input type="radio" id={index + item} name={item} value={item} onChange={this.props.changeLocation} checked={(item == this.props.searchLocation)? true:false}/>
+                      <label htmlFor={index + item} className="location-label">{item}</label>
                   </li>
                 )}
 
@@ -209,6 +363,7 @@ class Main0 extends React.Component{
                 toJobPage={this.props.toJobPage}
                 nextJobPage={this.props.nextJobPage}
                 lastJobPage={this.props.lastJobPage}
+                searchNotice={this.props.searchNotice}
             />
             </div>
     )
@@ -223,7 +378,7 @@ class Main1 extends React.Component{
         const companyName = (!data)? null: data.company.name;
         const title = (!data)? null: data.name;
         const location = (!data)? null: data.locations[0].name;
-        const remote = (location == 'Flexible / Remote')?<span className="job-ft">Remote</span>:null;
+        const level = (!data)? null: <p className="job-ft">{data.levels[0].name}</p>;
         const date1 = new Date();//get today
         const date2 = (!data)? null: new Date(data.publication_date);//get publication date
         const diffTime = (!date2)? null: Math.abs(date2 - date1);
@@ -254,7 +409,7 @@ class Main1 extends React.Component{
             <div id="job-details">
                 <div className="job-title-div">
                 <h3>{title}</h3>
-                {remote}
+                {level}
                 </div>
                 <span className="icon-text-gp">
                     <span className="material-icons-outlined">schedule</span>
@@ -305,17 +460,19 @@ class JobList extends React.Component{
                            (this.props.jobPage == 9)?"9":parseInt(this.props.jobPage)+1;
         const btnGp3Text = (this.props.jobPage >7)?"10":
                            (this.props.jobPage==0)?"3":parseInt(this.props.jobPage)+2;
-
+        const showJobs= (i) =>(this.props.jobData5[i])?<Jobs jobData5={this.props.jobData5} jobData={this.props.jobData5[i]} toDetailPage={this.props.toDetailPage}/>: null;
         return(
             <div id="jobs-div">
             <div id="job-list">
-                <Jobs jobData5={this.props.jobData5} jobData={this.props.jobData5[0]} toDetailPage={this.props.toDetailPage}/>
-                <Jobs jobData5={this.props.jobData5} jobData={this.props.jobData5[1]} toDetailPage={this.props.toDetailPage}/>
-                <Jobs jobData5={this.props.jobData5} jobData={this.props.jobData5[2]} toDetailPage={this.props.toDetailPage}/>
-                <Jobs jobData5={this.props.jobData5} jobData={this.props.jobData5[3]} toDetailPage={this.props.toDetailPage}/>
-                <Jobs jobData5={this.props.jobData5} jobData={this.props.jobData5[4]} toDetailPage={this.props.toDetailPage}/>
+                
+                {(showJobs(0))?showJobs(0):<div className="job-list-item search-notice">{this.props.searchNotice}</div>}
+                {showJobs(1)}
+                {showJobs(2)}
+                {showJobs(3)}
+                {showJobs(4)}
            
             </div>
+            {(showJobs(0))?          
             <div id="page-btn-div">
                 <button className={btnLeft} onClick={this.props.lastJobPage}>
                     <span className="material-icons-outlined page-btn-icon">
@@ -334,7 +491,9 @@ class JobList extends React.Component{
                         chevron_right
                     </span>
                 </button>
-            </div>
+            </div>:
+            null
+            }
             </div>
         )
     }
@@ -350,7 +509,7 @@ class Jobs extends React.Component{
         const companyName = (!data)? null: data.company.name;
         const title = (!data)? null: data.name;
         const location = (!data)? null: data.locations[0].name;
-        const remote = (location == 'Flexible / Remote')?<p className="job-ft">Remote</p>:null;
+        const level = (!data)? null: <p className="job-ft">{data.levels[0].name}</p>;
         const date1 = new Date();//get today
         const date2 = (!data)? null: new Date(data.publication_date);//get publication date
         const diffTime = (!date2)? null: Math.abs(date2 - date1);
@@ -367,7 +526,7 @@ class Jobs extends React.Component{
                 <div className="job-text-div">
                     <p className="job-com">{companyName}</p>
                     <p className="job-title">{title}</p>
-                    {remote}
+                    {level}
                 </div>
                 <div className="job-lt-div">
                     <span className="icon-text-gp">
@@ -385,3 +544,10 @@ class Jobs extends React.Component{
 }
 
 ReactDOM.render(<MyApp />, document.getElementById('myApp'));
+
+
+/*
+const ddd = "";
+const eee = ddd.replace(/([a-z]|[A-Z][A-Z])(Z)/g,'$1"'+','+'"$2');
+console.log(eee);
+*/
