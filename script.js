@@ -91,7 +91,7 @@ class MyApp extends React.Component{
             page:1,
             jobNo:event.currentTarget.id.charAt(3),
         })
-        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     toMainPage(){
