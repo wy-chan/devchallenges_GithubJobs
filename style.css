@@ -402,6 +402,7 @@ font-weight: bold;
   }
   .location-input{
     width:auto;
+    background:none;
   }
   #levels-list,#location-list{
     flex-direction: row;
