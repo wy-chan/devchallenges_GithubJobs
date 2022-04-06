@@ -75,7 +75,7 @@ This application/site was created as a submission to a [DevChallenges](https://d
 - [x] User story: I can search for jobs with a given keyword
 - [x] User story: I can search for jobs with a city name, zip code, or other location
 - [x] User story: I can select one option from at least 4 pre-defined options
-- [x] User story: I can search for a full-time job only *(Not available, I changed this to "levels" options.)*
+- [x] User story: I can search for a full-time job only *(I changed this to "levels" options due to features of the API.)*
 - [x] User story: I can see a list of jobs with their logo, company name, location, and posted time. *(Company logo is not provided in this API.)*
 - [x] User story: When I select a job, I can see job descriptions and how to apply like the given design.
 - [x] User story: When I am on the job details page, I can go back to the search page
